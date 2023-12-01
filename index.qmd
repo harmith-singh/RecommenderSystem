@@ -1,1 +1,13 @@
 # Introduction
+
+
+## Motivation
+
+In today's digital age, we are inundated with an overwhelming amount of information and choices. From e-commerce platforms to streaming services, online news articles, and social media feeds, users face a constant barrage of options, making it increasingly diffi cult to discover relevant and personalized content. This challenge has given rise to the critical need for recommender systems, which play a pivotal role in helping users navigate this information overload.
+
+Recommendation systems have revolutionized the way consumers today fi nd products and content online. Companies such as Yelp, Amazon, Youtube, Spotify, and Tinder are only a few examples of the many using this sophisticated application of machine learning. The algorithm combines the user’s preferences and history with the patterns of other users to curate what the user would be likely to enjoy in the future.
+
+## Problem Statement
+
+Movie Streaming platforms offer an extensive selection of products, catering to diverse customer preferences. Such a wide collection, makes it challenging for users to discover books that align with their interests and tastes. To address this issue, we propose a project that focuses on leveraging the MovieLens movie ratings  dataset to develop a personalized recommender system
+.
