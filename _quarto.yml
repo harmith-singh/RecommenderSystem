@@ -8,10 +8,10 @@ execute:
 book:
   title: "YOUR PROJECT TITLE"
   author:
-    - AUTHOR1 (UNI1)
-    - AUTHOR2 (UNI2)
-  repo-url: https://github.com/YOUR_GITHUB_ACCOUNT/REPO_NAME
-  date: today
+    - Harmeet Singh Bagga (hb2783)
+    - Liangtai Xing (lx2318)
+  repo-url: https://github.com/harmith-singh/RecommenderSystem.git
+  date: 30-Nov-2023
   page-footer:
     right: |
       This book was built with <a href="https://quarto.org/">Quarto</a>.
