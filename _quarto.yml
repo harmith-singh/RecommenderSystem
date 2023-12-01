@@ -6,7 +6,7 @@ execute:
   echo: true
 
 book:
-  title: "YOUR PROJECT TITLE"
+  title: "Recommender System"
   author:
     - Harmeet Singh Bagga (hb2783)
     - Liangtai Xing (lx2318)
