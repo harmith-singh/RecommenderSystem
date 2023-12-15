@@ -1,1 +1,72 @@
 # Results
+
+Installing Packages
+```{r}
+#install.packages("recommenderlab")
+library(recommenderlab)
+#install.packages("reshape2")
+library(reshape2)
+library(tidyr)
+library(dplyr)
+```
+
+
+Loading and Preprocessing data
+```{r}
+ratings_data <- read.csv("ratings.csv")
+movie_data <- as(ratings_data, "realRatingMatrix")
+```
+
+
+
+Building the recommender model using collaborative filtering (using the "IBCF" method)
+```{r}
+recommender_model <- Recommender(data = movie_data, method = "IBCF")
+predicted_ratings <- predict(recommender_model, newdata = movie_data)
+predicted_ratings_matrix <- as(predicted_ratings, "matrix")
+```
+
+
+Saving Output in required format
+```{r}
+user_ids <- rownames(predicted_ratings_matrix)
+movie_ids <- colnames(predicted_ratings_matrix)
+all_combinations <- expand.grid(userId = as.integer(user_ids), movieId = as.integer(movie_ids))
+long_format_predictions <- cbind(all_combinations, 
+                                 predicted_rating = as.vector(predicted_ratings_matrix))
+long_format_predictions$predicted_rating[is.na(long_format_predictions$predicted_rating)] <- 0
+write.csv(long_format_predictions, "long_format_predictions.csv", row.names = FALSE)
+```
+
+
+Creating final output to use in interactive graph
+```{r}
+final_merged_df <- merge(long_format_predictions, ratings_data, by = c("userId", "movieId"), all.x = TRUE)
+final_merged_df[is.na(final_merged_df)] <- 0
+write.csv(final_merged_df, "final_merged_dataframe.csv", row.names = FALSE)
+data <- read.csv("final_merged_dataframe.csv")
+
+filter_user_rows <- function(user_id) {
+  user_data <- subset(data, userId == user_id)
+
+  top_rated_movies <- user_data[order(-user_data$rating), ][1:10, ]
+  
+  if (nrow(top_rated_movies) < 10) {
+    unrated_movies <- user_data[user_data$rating == 0, ][sample(nrow(user_data[user_data$rating == 0, ]), 10 - nrow(top_rated_movies)), ]
+    top_rated_movies <- rbind(top_rated_movies, unrated_movies)
+  }
+  
+  top_predicted_movies <- user_data[user_data$rating == 0, ][order(-user_data[user_data$rating == 0, ]$predicted_rating), ][1:10, ]
+  
+  result <- rbind(top_rated_movies, top_predicted_movies)
+  return(result)
+}
+
+unique_users <- unique(data$userId)
+final_result <- data.frame()
+for (user_id in unique_users) {
+  user_filtered_rows <- filter_user_rows(user_id)
+  final_result <- rbind(final_result, user_filtered_rows)
+}
+write.csv(final_result, "final_result.csv", row.names = FALSE)
+```
